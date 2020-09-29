@@ -1,5 +1,6 @@
 // const request= require('request')
 const http = require('http')
+const path= require('path')
 const fs = require('fs');
 const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
@@ -37,16 +38,21 @@ function downLoad(url) {
             content:content
         };
         saveContent(bookObj);
-        console.log(html);
+        // console.log(html);
        })
    })
         
 }
 function saveContent(obj) {
-    console.log(`${page}--${obj.title}`)
+    console.log(`${page}--${obj.title}`);
+    const fileName=path.join(__dirname,`data/${obj.bookName}`);
+    console.log(fileName);
      //判断书名文件夹是否存在，不存在则创建
-    if (!fs.existsSync(`data/${obj.bookName}`)) {
-         fs.mkdirSync(`data/${obj.bookName}`)
+    if (!fs.existsSync(fileName)) {
+         fs.mkdirSync(fileName, {recursive:true},(err)=>{
+             if (err) console.log(err);
+             console.log('数据写入成功');
+         })
      }
     //写入json文件
      fs.writeFile(`./data/${obj.bookName}/chapter${page}.json`, JSON.stringify(obj), 'utf-8', err => {
