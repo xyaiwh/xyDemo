@@ -37,7 +37,7 @@ function downLoad(url) {
             content:content
         };
         saveContent(bookObj);
-        // console.log(html1);
+        console.log(html);
        })
    })
         
